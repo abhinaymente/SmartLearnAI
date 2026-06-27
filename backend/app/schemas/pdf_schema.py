@@ -9,6 +9,7 @@ class PDFResponse(BaseModel):
     file_path: str
     uploaded_at: datetime
     user_id: int
+    extracted_text: str | None = None
 
     class Config:
         from_attributes = True

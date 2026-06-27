@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, DateTime, ForeignKey
+from sqlalchemy import Column, Integer, String, DateTime, ForeignKey, Text
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
 
@@ -30,4 +30,9 @@ class PDF(Base):
     user = relationship(
         "User",
         back_populates="pdfs"
+    )
+
+    extracted_text = Column(
+    Text,
+    nullable=True
     )
