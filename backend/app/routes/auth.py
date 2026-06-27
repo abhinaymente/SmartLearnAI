@@ -4,7 +4,7 @@ from sqlalchemy.orm import Session
 from app.core.database import get_db
 from app.schemas.user_schema import UserCreate, UserResponse
 from app.services.user_service import create_user
-
+from fastapi.security import OAuth2PasswordRequestForm
 from app.schemas.user_schema import (
     UserCreate,
     UserResponse,
@@ -35,9 +35,16 @@ def register(user: UserCreate, db: Session = Depends(get_db)):
         )
 
 @router.post("/login", response_model=Token)
-def login(user: UserLogin, db: Session = Depends(get_db)):
+def login(
+    form_data: OAuth2PasswordRequestForm = Depends(),
+    db: Session = Depends(get_db)
+):
     try:
-        return login_user(db, user)
+        return login_user(
+            db,
+            form_data.username,
+            form_data.password
+        )
 
     except ValueError as e:
         raise HTTPException(

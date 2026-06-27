@@ -32,11 +32,14 @@ def create_user(db: Session, user_data: UserCreate):
 
     return new_user
 
-def login_user(db: Session, user_data: UserLogin):
+def login_user(
+    db: Session,
+    email: str,
+    password: str):
 
     # Find user by email
     existing_user = db.query(User).filter(
-        User.email == user_data.email
+        User.email == email
     ).first()
 
     # User not found
@@ -45,7 +48,7 @@ def login_user(db: Session, user_data: UserLogin):
 
     # Verify password
     if not verify_password(
-        user_data.password,
+        password,
         existing_user.password
     ):
         raise ValueError("Invalid email or password")
