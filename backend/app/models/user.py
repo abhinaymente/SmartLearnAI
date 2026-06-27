@@ -1,6 +1,6 @@
 from sqlalchemy import Column, Integer, String, Boolean, DateTime
 from sqlalchemy.sql import func
-
+from sqlalchemy.orm import relationship
 from app.core.database import Base
 
 
@@ -23,4 +23,9 @@ class User(Base):
         DateTime(timezone=True),
         server_default=func.now(),
         onupdate=func.now()
+    )
+
+    pdfs = relationship(
+    "PDF",
+    back_populates="user"
     )
